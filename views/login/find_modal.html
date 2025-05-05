@@ -1,0 +1,45 @@
+<!-- views/login/find_modal.html -->
+<div 
+  v-if="showPopup" 
+  class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+>
+  <div class="bg-white w-11/12 max-w-md p-6 rounded-xl shadow-lg relative">
+    <h3 class="text-xl font-bold mb-4 text-center">정보 찾기</h3>
+
+    <!-- 탭 전환 -->
+    <div class="flex justify-center gap-4 mb-4">
+      <button :class="popupMode === 'id' ? activeTab : inactiveTab" @click="popupMode = 'id'">아이디 찾기</button>
+      <button :class="popupMode === 'pw' ? activeTab : inactiveTab" @click="popupMode = 'pw'">비밀번호 찾기</button>
+    </div>
+
+    <!-- 아이디 찾기 -->
+    <div v-if="popupMode === 'id'">
+      <input type="text" placeholder="이름" v-model="findName" class="w-full mb-2 px-4 py-2 border rounded-lg">
+      <p v-if="errorFindName" class="text-sm text-red-500 mb-1">이름을 입력해주세요.</p>
+
+      <input type="email" placeholder="가입한 이메일" v-model="findEmail" class="w-full mb-2 px-4 py-2 border rounded-lg">
+      <p v-if="errorFindEmail" class="text-sm text-red-500 mb-1">이메일을 입력해주세요.</p>
+
+      <p v-if="findResult" class="text-green-600 text-sm text-center mb-2">가입하신 아이디는 <strong>{{ foundId }}</strong>입니다.</p>
+      <p v-if="findFail" class="text-red-500 text-sm text-center mb-2">입력하신 정보와 일치하는 계정을 찾을 수 없습니다.</p>
+
+      <button @click="handleFindId" class="w-full bg-blue-500 text-white py-2 rounded-lg">아이디 찾기</button>
+    </div>
+
+    <!-- 비밀번호 찾기 -->
+    <div v-else>
+      <input type="text" placeholder="아이디" v-model="pwId" class="w-full mb-2 px-4 py-2 border rounded-lg">
+      <p v-if="errorPwId" class="text-sm text-red-500 mb-1">아이디를 입력해주세요.</p>
+
+      <input type="email" placeholder="가입한 이메일" v-model="pwEmail" class="w-full mb-2 px-4 py-2 border rounded-lg">
+      <p v-if="errorPwEmail" class="text-sm text-red-500 mb-1">이메일을 입력해주세요.</p>
+
+      <p v-if="pwResetSuccess" class="text-green-600 text-sm text-center mb-2">임시 비밀번호를 이메일로 전송했습니다.</p>
+      <p v-if="pwResetFail" class="text-red-500 text-sm text-center mb-2">입력하신 정보와 일치하는 계정을 찾을 수 없습니다.</p>
+
+      <button @click="handleResetPw" class="w-full bg-green-500 text-white py-2 rounded-lg">비밀번호 초기화</button>
+    </div>
+
+    <button @click="closePopup" class="absolute top-3 right-4 text-gray-500 hover:text-black text-xl">&times;</button>
+  </div>
+</div>
